@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SYSTEMLAZA | Sistemas Especiales de Seguridad</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#08111f;
+      --bg-soft:#0d1830;
+      --card:#101d37;
+      --line:rgba(255,255,255,.08);
+      --text:#e9eef8;
+      --muted:#a9b6cf;
+      --primary:#d61f2c;
+      --primary-2:#ff4d5a;
+      --white:#ffffff;
+      --shadow:0 20px 60px rgba(0,0,0,.28);
+      --radius:22px;
+      --max:1180px;
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{
+      font-family:'Inter', Arial, sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(214,31,44,.18), transparent 28%),
+        radial-gradient(circle at 90% 10%, rgba(59,130,246,.16), transparent 22%),
+        linear-gradient(180deg, #07101d 0%, #0b1426 100%);
+      color:var(--text);
+      line-height:1.6;
+    }
+
+    a{text-decoration:none;color:inherit}
+    img{max-width:100%;display:block}
+    .container{width:min(var(--max), 92%);margin:auto}
+
+    .topbar{
+      position:sticky;
+      top:0;
+      z-index:1000;
+      backdrop-filter:blur(12px);
+      background:rgba(8,17,31,.72);
+      border-bottom:1px solid var(--line);
+    }
+    .nav{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:16px 0;
+      gap:20px;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      font-weight:800;
+      letter-spacing:.4px;
+    }
+    .brand-badge{
+      width:42px;height:42px;border-radius:14px;
+      background:linear-gradient(135deg,var(--primary),var(--primary-2));
+      display:grid;place-items:center;
+      box-shadow:0 12px 28px rgba(214,31,44,.35);
+      font-weight:800;
+    }
+    .brand small{display:block;color:var(--muted);font-weight:600;font-size:.73rem;letter-spacing:.08em;text-transform:uppercase}
+    .nav-links{display:flex;gap:22px;flex-wrap:wrap}
+    .nav-links a{color:var(--muted);font-weight:600;transition:.2s ease}
+    .nav-links a:hover{color:var(--white)}
+
+    .hero{
+      padding:72px 0 52px;
+    }
+    .hero-grid{
+      display:grid;
+      grid-template-columns:1.12fr .88fr;
+      gap:28px;
+      align-items:center;
+    }
+    .eyebrow{
+      display:inline-flex;align-items:center;gap:10px;
+      padding:8px 14px;border-radius:999px;
+      background:rgba(255,255,255,.05);border:1px solid var(--line);
+      color:#dfe7f7;font-size:.88rem;font-weight:700;margin-bottom:18px;
+    }
+    .eyebrow::before{
+      content:"";width:10px;height:10px;border-radius:50%;background:#22c55e;
+      box-shadow:0 0 18px #22c55e;
+    }
+    h1{
+      font-size:clamp(2.5rem, 5vw, 4.5rem);
+      line-height:1.02;
+      letter-spacing:-.03em;
+      margin-bottom:18px;
+    }
+    .hero p{
+      color:var(--muted);
+      font-size:1.08rem;
+      max-width:700px;
+      margin-bottom:28px;
+    }
+    .cta-row{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:28px}
+    .btn{
+      display:inline-flex;align-items:center;justify-content:center;
+      min-height:50px;padding:0 22px;border-radius:14px;
+      font-weight:800;transition:.2s ease;border:1px solid transparent;
+    }
+    .btn-primary{
+      background:linear-gradient(135deg,var(--primary),var(--primary-2));
+      color:var(--white);box-shadow:0 16px 38px rgba(214,31,44,.28)
+    }
+    .btn-secondary{
+      background:rgba(255,255,255,.04);border-color:var(--line);color:var(--white)
+    }
+    .btn:hover{transform:translateY(-2px)}
+
+    .hero-stats{
+      display:grid;grid-template-columns:repeat(3,1fr);gap:14px;
+    }
+    .stat{
+      background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:18px;
+      padding:16px 18px;
+    }
+    .stat strong{display:block;font-size:1.35rem}
+    .stat span{color:var(--muted);font-size:.92rem}
+
+    .hero-panel{
+      position:relative;
+      background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      border:1px solid var(--line);
+      border-radius:30px;
+      padding:26px;
+      box-shadow:var(--shadow);
+      overflow:hidden;
+    }
+    .hero-panel::before{
+      content:"";
+      position:absolute;inset:auto -40px -40px auto;
+      width:180px;height:180px;border-radius:50%;
+      background:radial-gradient(circle, rgba(214,31,44,.28), transparent 65%);
+    }
+    .panel-card{
+      background:rgba(10,18,33,.72);border:1px solid rgba(255,255,255,.08);
+      border-radius:20px;padding:18px 18px 14px;margin-top:14px;
+    }
+    .panel-card h3{font-size:1rem;margin-bottom:10px}
+    .panel-list{display:grid;gap:10px}
+    .panel-item{
+      display:flex;align-items:center;gap:12px;padding:12px 14px;
+      background:rgba(255,255,255,.03);border-radius:14px;border:1px solid rgba(255,255,255,.05)
+    }
+    .panel-icon{
+      width:36px;height:36px;border-radius:12px;display:grid;place-items:center;
+      background:linear-gradient(135deg, rgba(214,31,44,.22), rgba(255,77,90,.15));
+      color:#fff;font-weight:800
+    }
+
+    section{padding:82px 0}
+    .section-head{max-width:760px;margin:0 auto 42px;text-align:center}
+    .section-head .tag{
+      display:inline-block;margin-bottom:14px;padding:7px 13px;border-radius:999px;
+      background:rgba(255,255,255,.05);border:1px solid var(--line);color:#d7deed;font-weight:700;font-size:.82rem;text-transform:uppercase;letter-spacing:.08em
+    }
+    .section-head h2{font-size:clamp(2rem,3.2vw,3rem);line-height:1.08;margin-bottom:12px}
+    .section-head p{color:var(--muted)}
+
+    .services-grid,
+    .projects-grid,
+    .brands-grid,
+    .why-grid,
+    .contact-grid{
+      display:grid;gap:20px;
+    }
+    .services-grid{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+    .projects-grid{grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
+    .brands-grid{grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+    .why-grid{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+    .contact-grid{grid-template-columns:1fr 1fr}
+
+    .card{
+      background:linear-gradient(180deg, rgba(255,255,255,.055), rgba(255,255,255,.03));
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      padding:24px;
+      box-shadow:var(--shadow);
+      transition:.25s ease;
+    }
+    .card:hover{transform:translateY(-4px);border-color:rgba(255,255,255,.14)}
+    .service-icon{
+      width:52px;height:52px;border-radius:16px;display:grid;place-items:center;
+      background:linear-gradient(135deg, rgba(214,31,44,.26), rgba(255,77,90,.12));
+      font-weight:800;margin-bottom:16px
+    }
+    .card h3{font-size:1.12rem;margin-bottom:10px}
+    .card p{color:var(--muted)}
+
+    .about-wrap{
+      display:grid;grid-template-columns:1.05fr .95fr;gap:24px;align-items:stretch
+    }
+    .about-main,.about-side,.contact-box{
+      background:linear-gradient(180deg, rgba(255,255,255,.055), rgba(255,255,255,.03));
+      border:1px solid var(--line);
+      border-radius:28px;
+      padding:28px;
+      box-shadow:var(--shadow);
+    }
+    .about-main p,.about-side p,.contact-box p{color:var(--muted)}
+    .feature-list{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:18px}
+    .feature{
+      padding:14px 15px;border-radius:16px;background:rgba(255,255,255,.03);border:1px solid var(--line);font-weight:700
+    }
+
+    .project-card strong{display:block;margin-bottom:6px;font-size:1.05rem}
+    .project-card span{color:var(--muted);font-size:.95rem}
+
+    .brand-chip{
+      min-height:78px;display:grid;place-items:center;text-align:center;
+      padding:14px;border-radius:18px;background:rgba(255,255,255,.04);
+      border:1px solid var(--line);font-weight:800;color:#f3f6fb
+    }
+
+    .cta-banner{
+      background:linear-gradient(135deg, rgba(214,31,44,.18), rgba(255,255,255,.04));
+      border:1px solid var(--line);
+      border-radius:32px;
+      padding:34px;
+      display:grid;grid-template-columns:1.2fr .8fr;gap:24px;align-items:center;
+      box-shadow:var(--shadow)
+    }
+    .cta-banner p{color:var(--muted);margin-top:10px}
+
+    .contact-box h3{margin-bottom:12px;font-size:1.2rem}
+    .contact-box p{margin-bottom:8px}
+    .contact-note{
+      margin-top:16px;padding:14px 16px;border-radius:16px;
+      background:rgba(255,255,255,.04);border:1px solid var(--line);color:#dfe6f4
+    }
+
+    .whatsapp{
+      position:fixed;right:18px;bottom:18px;z-index:999;
+      width:58px;height:58px;border-radius:50%;display:grid;place-items:center;
+      background:linear-gradient(135deg,#22c55e,#16a34a);color:white;font-size:1.4rem;font-weight:900;
+      box-shadow:0 18px 34px rgba(34,197,94,.28)
+    }
+
+    footer{
+      border-top:1px solid var(--line);
+      padding:28px 0 40px;color:var(--muted);text-align:center
+    }
+
+    @media (max-width: 980px){
+      .hero-grid,.about-wrap,.cta-banner,.contact-grid{grid-template-columns:1fr}
+      .hero-stats{grid-template-columns:1fr 1fr 1fr}
+    }
+    @media (max-width: 760px){
+      .nav{align-items:flex-start}
+      .nav-links{gap:14px}
+      .hero{padding:48px 0 32px}
+      .hero-stats{grid-template-columns:1fr}
+      .feature-list{grid-template-columns:1fr}
+      section{padding:64px 0}
+      h1{font-size:2.5rem}
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="container nav">
+      <a href="#inicio" class="brand">
+        <div class="brand-badge">S</div>
+        <div>
+          SYSTEMLAZA
+          <small>Sistemas Especiales de Seguridad</small>
+        </div>
+      </a>
+      <div class="nav-links">
+        <a href="#servicios">Servicios</a>
+        <a href="#empresa">Empresa</a>
+        <a href="#proyectos">Proyectos</a>
+        <a href="#marcas">Marcas</a>
+        <a href="#contacto">Contacto</a>
+      </div>
+    </div>
+  </div>
+
+  <header class="hero" id="inicio">
+    <div class="container hero-grid">
+      <div>
+        <div class="eyebrow">Soluciones para industria y empresa</div>
+        <h1>Seguridad electrónica profesional con enfoque técnico y ejecución confiable.</h1>
+        <p>Diseñamos, suministramos e instalamos sistemas especiales de seguridad para empresas e industria: detección de incendio, CCTV, control de acceso, alarma perimetral, voceo y cableado estructurado.</p>
+        <div class="cta-row">
+          <a href="#contacto" class="btn btn-primary">Solicitar cotización</a>
+          <a href="#servicios" class="btn btn-secondary">Conocer servicios</a>
+        </div>
+        <div class="hero-stats">
+          <div class="stat">
+            <strong>6+</strong>
+            <span>Líneas de servicio</span>
+          </div>
+          <div class="stat">
+            <strong>8+</strong>
+            <span>Clientes industriales mostrados</span>
+          </div>
+          <div class="stat">
+            <strong>2015</strong>
+            <span>Empresa constituida</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-panel">
+        <div class="panel-card">
+          <h3>Áreas de especialidad</h3>
+          <div class="panel-list">
+            <div class="panel-item"><div class="panel-icon">01</div><div>Detección de incendio</div></div>
+            <div class="panel-item"><div class="panel-icon">02</div><div>Circuito cerrado de TV</div></div>
+            <div class="panel-item"><div class="panel-icon">03</div><div>Control de acceso personal y vehicular</div></div>
+            <div class="panel-item"><div class="panel-icon">04</div><div>Voceo, alarma perimetral y cableado estructurado</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section id="servicios">
+    <div class="container">
+      <div class="section-head">
+        <div class="tag">Servicios</div>
+        <h2>Soluciones diseñadas para proteger instalaciones, operaciones y personal.</h2>
+        <p>Una propuesta clara y profesional para sectores que requieren control, monitoreo y respuesta confiable.</p>
+      </div>
+
+      <div class="services-grid">
+        <div class="card">
+          <div class="service-icon">FI</div>
+          <h3>Detección de Incendio</h3>
+          <p>Sistemas para detección temprana y protección de áreas críticas, con enfoque en continuidad operativa y seguridad.</p>
+        </div>
+        <div class="card">
+          <div class="service-icon">CC</div>
+          <h3>CCTV</h3>
+          <p>Videovigilancia para supervisión estratégica, registro de eventos y fortalecimiento de protocolos internos.</p>
+        </div>
+        <div class="card">
+          <div class="service-icon">CA</div>
+          <h3>Control de Acceso</h3>
+          <p>Control personal y vehicular para administrar entradas, reforzar seguridad física y mejorar trazabilidad.</p>
+        </div>
+        <div class="card">
+          <div class="service-icon">VP</div>
+          <h3>Voceo y Avisos Públicos</h3>
+          <p>Comunicación clara para operación diaria, anuncios internos y escenarios de respuesta en sitio.</p>
+        </div>
+        <div class="card">
+          <div class="service-icon">AP</div>
+          <h3>Alarma Perimetral</h3>
+          <p>Protección del perímetro con soluciones orientadas a prevenir intrusiones y disminuir vulnerabilidades.</p>
+        </div>
+        <div class="card">
+          <div class="service-icon">CE</div>
+          <h3>Cableado Estructurado</h3>
+          <p>Infraestructura de soporte ordenada, escalable y lista para integrarse con sistemas de seguridad y comunicación.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="empresa">
+    <div class="container">
+      <div class="section-head">
+        <div class="tag">Empresa</div>
+        <h2>Una presentación más sólida para transmitir confianza desde el primer vistazo.</h2>
+        <p>Esta sección ayuda a que el cliente perciba a SYSTEMLAZA como una empresa formal, técnica y preparada para proyectos corporativos.</p>
+      </div>
+
+      <div class="about-wrap">
+        <div class="about-main">
+          <h3 style="font-size:1.4rem;margin-bottom:14px;">Sobre SYSTEMLAZA</h3>
+          <p><strong style="color:var(--white);">Misión:</strong> brindar plena satisfacción al cliente mediante trabajo profesional y de calidad, utilizando equipos y materiales reconocidos, ejecutando cada proyecto en tiempo y forma.</p>
+          <p style="margin-top:16px;"><strong style="color:var(--white);">Visión:</strong> ser la mejor opción en sistemas especiales de seguridad, generando confianza total a través de soluciones confiables y atención profesional.</p>
+        </div>
+
+        <div class="about-side">
+          <h3 style="font-size:1.4rem;margin-bottom:14px;">¿Por qué elegirlos?</h3>
+          <div class="feature-list">
+            <div class="feature">Atención profesional</div>
+            <div class="feature">Experiencia en industria</div>
+            <div class="feature">Marcas reconocidas</div>
+            <div class="feature">Ejecución en tiempo y forma</div>
+            <div class="feature">Soluciones integrales</div>
+            <div class="feature">Enfoque en satisfacción del cliente</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="proyectos">
+    <div class="container">
+      <div class="section-head">
+        <div class="tag">Experiencia</div>
+        <h2>Clientes y proyectos que respaldan su perfil técnico.</h2>
+        <p>Mostrar empresas atendidas da credibilidad inmediata y ayuda a vender mejor el servicio.</p>
+      </div>
+
+      <div class="projects-grid">
+        <div class="card project-card"><strong>Hazama Ando Corporation / Tatsumi de México</strong><span>Proyecto industrial</span></div>
+        <div class="card project-card"><strong>Corporación Mitsuba de México</strong><span>Infraestructura y seguridad</span></div>
+        <div class="card project-card"><strong>Nippon Seiki de México</strong><span>Servicios especializados</span></div>
+        <div class="card project-card"><strong>Castle Metals de México</strong><span>Implementación técnica</span></div>
+        <div class="card project-card"><strong>Hitachi Chemical México</strong><span>Entorno corporativo-industrial</span></div>
+        <div class="card project-card"><strong>Panasonic Automotive System Monterrey</strong><span>Seguridad y monitoreo</span></div>
+        <div class="card project-card"><strong>NGK Ceramics México</strong><span>Soluciones empresariales</span></div>
+        <div class="card project-card"><strong>Kawasaki Motors de México Monterrey</strong><span>Atención a industria</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="marcas">
+    <div class="container">
+      <div class="section-head">
+        <div class="tag">Marcas</div>
+        <h2>Compatibilidad con fabricantes reconocidos en seguridad y conectividad.</h2>
+        <p>Esta sección transmite respaldo técnico y experiencia con tecnologías utilizadas en proyectos reales.</p>
+      </div>
+
+      <div class="brands-grid">
+        <div class="brand-chip">Hochiki</div>
+        <div class="brand-chip">Notifier</div>
+        <div class="brand-chip">Firelite</div>
+        <div class="brand-chip">TOA</div>
+        <div class="brand-chip">Dahua</div>
+        <div class="brand-chip">Samsung CCTV</div>
+        <div class="brand-chip">Panasonic CCTV</div>
+        <div class="brand-chip">Hikvision</div>
+        <div class="brand-chip">Axis Communication</div>
+        <div class="brand-chip">Keyscan</div>
+        <div class="brand-chip">ZK</div>
+        <div class="brand-chip">DSC</div>
+        <div class="brand-chip">Optex</div>
+        <div class="brand-chip">Panduit</div>
+        <div class="brand-chip">Belden</div>
+        <div class="brand-chip">FAAC</div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <div class="cta-banner">
+        <div>
+          <h2 style="font-size:clamp(1.8rem,3vw,2.8rem);line-height:1.08;">¿Listos para modernizar su presencia digital?</h2>
+          <p>Con esta propuesta, la empresa puede mostrar mejor sus servicios, fortalecer confianza comercial y facilitar el contacto con nuevos clientes.</p>
+        </div>
+        <div class="cta-row" style="justify-content:flex-start;align-items:center;margin:0;">
+          <a href="#contacto" class="btn btn-primary">Hablar con un asesor</a>
+          <a href="#servicios" class="btn btn-secondary">Ver propuesta</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contacto">
+    <div class="container">
+      <div class="section-head">
+        <div class="tag">Contacto</div>
+        <h2>Un cierre claro para facilitar la conversión.</h2>
+        <p>Aquí conviene agregar más adelante botón de WhatsApp real, formulario y Google Maps.</p>
+      </div>
+
+      <div class="contact-grid">
+        <div class="contact-box">
+          <h3>Información de contacto</h3>
+          <p><strong style="color:var(--white);">Empresa:</strong> SYSTEMLAZA, S.A. DE C.V.</p>
+          <p><strong style="color:var(--white);">Contacto:</strong> Ing. Miguel García Lázaro</p>
+          <p><strong style="color:var(--white);">Teléfono:</strong> (81) 1976 4178</p>
+          <p><strong style="color:var(--white);">Correo:</strong> systemlaza@gmail.com</p>
+          <p><strong style="color:var(--white);">Dirección:</strong> Cedro 616, Arboledas de Santa Rosa, Apodaca, Nuevo León, C.P. 66614</p>
+        </div>
+
+        <div class="contact-box">
+          <h3>Datos empresariales</h3>
+          <p><strong style="color:var(--white);">RFC:</strong> SYS151123T3A</p>
+          <p><strong style="color:var(--white);">Constitución:</strong> 23 de noviembre de 2015</p>
+          <p><strong style="color:var(--white);">Registro Público:</strong> 10214 3</p>
+          <p><strong style="color:var(--white);">Estado:</strong> Estado de México</p>
+          <div class="contact-note">Siguiente mejora recomendada: agregar formulario funcional, íconos, fotos reales de instalaciones y dominio corporativo.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">© 2026 SYSTEMLAZA S.A. DE C.V. | Sitio corporativo de propuesta</div>
+  </footer>
+
+  <a class="whatsapp" href="#contacto" aria-label="Ir a contacto">W</a>
+</body>
+</html>
